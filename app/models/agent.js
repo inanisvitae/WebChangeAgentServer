@@ -1,3 +1,5 @@
+import { createPatch } from 'diff';
+
 class Agent {
   constructor() {
     console.log('Initialized detector agent...');
@@ -5,7 +7,8 @@ class Agent {
 
   get() {
     console.log('Get endpoint is invoked...');
-    return true;
+    const patch = createPatch('Website Content Difference', 'example1_str...', 'example2_str....');
+    return patch;
   }
 }
 
