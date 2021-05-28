@@ -1,6 +1,11 @@
 import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
+// import fs from 'fs';
+import Promise from 'bluebird';
+let fs = Promise.promisifyAll(require('fs'));
+import cron from 'node-cron';
+import scrape from 'website-scraper'; // only as ESM, no CommonJS
 import routes from './routes';
 import Agent from './models/agent';
 
@@ -12,6 +17,22 @@ app.use(express.json());
 app.use(express.static('public'));
 const agent = new Agent();
 app.use(routes(agent));
+agent.setPath(__dirname);
+
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+  const directory = `${__dirname}/${encodeURIComponent(agent.getUrl())}/${new Date().getTime()}`;
+  const options = {
+    urls: [agent.getUrl()],
+    directory,
+    sources: [
+      { selector: 'body' }
+    ],
+  };
+  scrape(options).then((result) => {
+
+  });
+});
 
 app.listen(3000, () => {
   console.log('Listening on port 3000!');

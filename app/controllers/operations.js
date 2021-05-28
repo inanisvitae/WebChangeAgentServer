@@ -2,7 +2,19 @@ import wrap from '../utils/asyncWrapper';
 
 
 const get = (agent) => wrap(async (req, res) => {
-  const result = await agent.get();
+  const {patch: diff, latestContent} = await agent.get();
+  if (diff) {
+    return res.json({ status: 'success', result: {
+      diff,
+      url: agent.getUrl(),
+      latestContent,
+    } });
+  }
+  return res.sendStatus(400);
+});
+
+const config = (agent) => wrap(async (req, res) => {
+  const result = await agent.config();
   if (result) {
     return res.json({ status: 'success', result });
   }
@@ -11,4 +23,5 @@ const get = (agent) => wrap(async (req, res) => {
 
 export default {
   get,
+  config,
 };
