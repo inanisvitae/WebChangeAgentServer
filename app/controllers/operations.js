@@ -13,12 +13,9 @@ const get = (agent) => wrap(async (req, res) => {
   if (result) {
     const {
       patch, 
-      // latestContent
     } = result;
     return res.json({ status: 'success', result: {
       diff: patch,
-      url: agent.getUrl(),
-      // latestContent,
     } });
   }
   return res.sendStatus(400);
