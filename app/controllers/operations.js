@@ -22,7 +22,10 @@ const get = (agent) => wrap(async (req, res) => {
 });
 
 const config = (agent) => wrap(async (req, res) => {
-  const result = await agent.config();
+  const {
+    url
+  } = req.body;
+  const result = await agent.config(url);
   if (result) {
     return res.json({ status: 'success', result });
   }

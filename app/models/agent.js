@@ -1,4 +1,5 @@
 import { createPatch } from 'diff';
+import format from 'html-format';
 import Promise from 'bluebird';
 let fs = Promise.promisifyAll(require('fs'));
 
@@ -28,8 +29,8 @@ class Agent {
     console.log('Get endpoint is invoked...');
     let patch = createPatch('Website Content Difference', 'Content Unavailable', 'Content Unavailable');
     try {
-      const index1 = await fs.readFileAsync(`${this.websitePath}/${url}/${startDate}/index.html`).then((res) => res.toString());
-      const index2 = await fs.readFileAsync(`${this.websitePath}/${url}/${endDate}/index.html`).then((res) => res.toString());
+      const index1 = format(await fs.readFileAsync(`${this.websitePath}/${url}/${startDate}/index.html`).then((res) => res.toString()).catch((res) => ''));
+      const index2 = format(await fs.readFileAsync(`${this.websitePath}/${url}/${endDate}/index.html`).then((res) => res.toString()).catch((res) => ''));
       patch = createPatch('Website Content Difference', index1, index2);
 
       // Should generate the patch and write it to disk for comparison
@@ -84,7 +85,9 @@ class Agent {
   }
 
   config(url) {
+    console.log('A new url is set: ' + url);
     this.url = url;
+    return true;
   }
 
   getUrl() {
