@@ -2,6 +2,7 @@ import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
 // import fs from 'fs';
+import path from 'path';
 import Promise from 'bluebird';
 let fs = Promise.promisifyAll(require('fs'));
 import cron from 'node-cron';
@@ -17,11 +18,13 @@ app.use(express.json());
 app.use(express.static('public'));
 const agent = new Agent();
 app.use(routes(agent));
-agent.setPath(__dirname);
+const mainPath = path.join(__dirname, '../');
+agent.setPath(mainPath);
+
 
 cron.schedule('* * * * *', () => {
   console.log('running a task every minute');
-  const directory = `${__dirname}/${encodeURIComponent(agent.getUrl())}/${new Date().getTime()}`;
+  const directory = `${mainPath}/websites/${encodeURIComponent(agent.getUrl())}/${new Date().getTime()}`;
   const options = {
     urls: [agent.getUrl()],
     directory,
