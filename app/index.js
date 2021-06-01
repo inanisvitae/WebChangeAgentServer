@@ -22,7 +22,7 @@ const mainPath = path.join(__dirname, '../');
 agent.setPath(mainPath);
 
 
-cron.schedule('* */1 * * *', () => {
+cron.schedule('* * */1 * *', () => {
   console.log('running a task every hour');
   const directory = `${mainPath}/websites/${encodeURIComponent(agent.getUrl())}/${new Date().getTime()}`;
   const options = {
