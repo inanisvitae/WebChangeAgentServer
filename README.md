@@ -7,3 +7,11 @@ git clone https://github.com/inanisvitae/WebChangeAgentServer.git <br />
 yarn <br />
 yarn build <br />
 yarn start <br />
+
+### Deployed instance
+It is deployed on <br />
+https://changedetectorserver.herokuapp.com/
+
+### Server
+Server is deployed on <br />
+https://changedetectorfrontend.herokuapp.com/
