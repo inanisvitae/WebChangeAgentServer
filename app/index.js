@@ -22,8 +22,8 @@ const mainPath = path.join(__dirname, '../');
 agent.setPath(mainPath);
 
 
-cron.schedule('10 * * * *', () => {
-  console.log('running a task every fifteen minutes');
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
   const directory = `${mainPath}/websites/${encodeURIComponent(agent.getUrl())}/${new Date().getTime()}`;
   const options = {
     urls: [agent.getUrl()],
@@ -34,6 +34,8 @@ cron.schedule('10 * * * *', () => {
   };
   scrape(options).then((result) => {
 
+  }).catch((e) => {
+    console.log('The url does not exist or it does not allow access...');
   });
 });
 
