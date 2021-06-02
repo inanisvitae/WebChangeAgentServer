@@ -85,9 +85,12 @@ class Agent {
   }
 
   config(url) {
-    console.log('A new url is set: ' + url);
-    this.url = url;
-    return true;
+    if (url) {
+      console.log('A new url is set: ' + url);
+      this.url = url;
+      return this.url;
+    }
+    return this.url;
   }
 
   getUrl() {
