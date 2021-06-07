@@ -50,7 +50,7 @@ const directory = (agent) => wrap(async (req, res) => {
   if (result) {
     return res.json({ status: 'success', result });
   }
-  return res.sendStatus(400);
+  return res.json({ status: 'success', result: {} });
 });
 
 export default {
